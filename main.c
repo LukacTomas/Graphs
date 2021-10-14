@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 unsigned int get_lastline_number_from_file(char *filename)
@@ -27,7 +28,7 @@ unsigned int get_lastline_number_from_file(char *filename)
     buff[i + 1] = '\0';
     number = atoi(buff);
     fclose(file);
-    printf("Last line number is : %f\n", number);
+    printf("Last line number is : %d\n", number);
 
     return number;
 }
