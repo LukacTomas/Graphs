@@ -5,29 +5,38 @@
 
 unsigned int get_lastline_number_from_file(char *filename)
 {
-    printf("Getting number from last line\n");
+   
     FILE *file = fopen(filename, "r");
-    int number;
-    static const long MAX_LEN = 20;
-    char buff[MAX_LEN + 1];
-    fseek(file, -MAX_LEN, SEEK_END); // set pointer to the end of file minus the length you need. Presumably there can be more than one new line caracter
-    fread(buff, MAX_LEN - 1, 1, file);
-    buff[MAX_LEN - 1] = '\0';                 // close the string
-    char *last_newline = strrchr(buff, '\n'); // find last occurrence of newlinw
-    char *last_line = last_newline + 1;
-    int i;
-    int len = strlen(last_line);
-    for (i = 0; i < len; ++i)
+    if (!file)
     {
-        if (last_line[i] == ' ')
-        {
-            break;
-        }
-        buff[i] = last_line[i];
+        perror("Error");
+        exit(-1);
     }
-    buff[i + 1] = '\0';
-    number = atoi(buff);
-    fclose(file);
+    printf("File <%s> was succesfully open for reading\n", filename);
+    printf("Getting number from last line\n");
+
+    // MAX_LEN of last line to be read to buffer
+    // e.g max two 10-digit int-s with space and \n 
+    // (2*10 + 1 + 1) = 22
+    static const long MAX_LEN = 22;
+    char buffer[MAX_LEN + 1];
+
+    // Read Last Line from File
+    int setLastLine = fseek(file, -MAX_LEN, SEEK_END); 
+    int readLastLineToBuffer = fread(buffer, MAX_LEN - 1, 1, file);
+    int closeFile = fclose(file);
+    buffer[MAX_LEN - 1] = 0;
+    char *lastLine = strrchr(buffer, '\n') + 1;
+
+    // Get First String (number) From Last Line
+    int i = 0;
+    while (lastLine[i] != ' ')
+    {
+        buffer[i - 1] = lastLine[i++];
+    }
+    buffer[i] = 0;
+ 
+    int number = atoi(buffer);
     printf("Last line number is : %d\n", number);
 
     return number;
