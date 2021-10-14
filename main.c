@@ -4,6 +4,36 @@
 #include <assert.h>
 #include "fileread.h"
 #include "graph.h"
+#include "queue.h"
+
+void bfs(graph *graph, int startVertex)
+{
+    queue *q = createQueue();
+
+    graph->visited[startVertex] = 1;
+    enqueue(q, startVertex);
+
+    while (!isEmpty(q))
+    {
+        //printQueue(q);
+        int currentVertex = dequeue(q);
+        //printf("Visited %d\n", currentVertex);
+
+        node *temp = graph->adjLists[currentVertex];
+
+        while (temp)
+        {
+            int adjVertex = temp->vertex;
+
+            if (graph->visited[adjVertex] == 0)
+            {
+                graph->visited[adjVertex] = 1;
+                enqueue(q, adjVertex);
+            }
+            temp = temp->next;
+        }
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -26,7 +56,9 @@ int main(int argc, char **argv)
         addEdge(graph, from, to);
     }
     fclose(file);
-
+    printf("Done reading File\n");
     printGraph(graph);
+    printf("Starting BFS\n\n");
+    
     return EXIT_SUCCESS;
 }

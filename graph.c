@@ -3,19 +3,6 @@
 #include <string.h>
 #include "graph.h"
 
-struct Graph
-{
-    int numVertices;
-    node **adjLists;
-    int *visited;
-};
-
-struct Node
-{
-    int vertex;
-    node *next;
-};
-
 graph *createGraph(int vertices)
 {
     graph *graph = malloc(sizeof(struct Graph));
@@ -61,7 +48,8 @@ void addEdge(graph *graph, int src, int dest)
 
 void printGraph(graph *graph)
 {
-    int maxPrint = graph->numVertices > 20 ? 20 : graph->numVertices;
+    int MAX = 30;
+    int maxPrint = graph->numVertices > MAX ? MAX : graph->numVertices;
     for (int i = 0; i <= maxPrint; i++)
     {
         if (graph->adjLists[i] == NULL)

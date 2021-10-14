@@ -1,7 +1,19 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
-typedef struct Graph graph;
-typedef struct Node node;
+typedef struct Node
+{
+    int vertex;
+    struct Node *next;
+} node;
+
+typedef struct Graph
+{
+    int numVertices;
+    node **adjLists;
+    int *visited;
+}graph;
+
+
 
 graph *createGraph(int vertices);
 node *createNode(int vertex);

@@ -1,2 +1,2 @@
-main: main.c graph.c fileread.c
-	gcc main.c graph.c fileread.c -o main -I -O2
+main: main.c graph.c fileread.c queue.c
+	gcc main.c graph.c fileread.c queue.c -o main -I -O2
